@@ -64,20 +64,6 @@
             text-align: center;
         }
 
-        /* Background Image - Blurred for depth */
-        .hero-bg-image {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -2;
-            object-fit: cover;
-            /* Focus on the top part of image */
-            object-position: center 20%; 
-            /* Blue tint effect + blur to make text pop */
-            filter: blur(8px) grayscale(100%) sepia(100%) hue-rotate(170deg) saturation(200%) brightness(0.4);
-            opacity: 0.6;
-            transform: scale(1.1); /* Scale up to hide blur edges */
-        }
-
         /* Particles on top of image */
         #particle-canvas {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -366,8 +352,6 @@
 
     <!-- HERO SECTION (Nidhi Layout, Blue Theme, Starry Effect) -->
     <header>
-        <!-- Background: Blurred version of User Image for atmosphere -->
-        <img src="arushi.jpg" alt="Background" class="hero-bg-image">
         
         <!-- Background: Starry Particles -->
         <canvas id="particle-canvas"></canvas>
@@ -378,7 +362,7 @@
             <div class="profile-container">
                 <div class="profile-placeholder">
                     <!-- Clean image display with object-position fixed -->
-                    <img src="WhatsApp%20Image%202025-11-29%20at%2000.32.52_5fc66d18.jpg" alt="Arushi Mathur">
+                    <img src="arushi.jpg" alt="Arushi Mathur">
                 </div>
             </div>
 
