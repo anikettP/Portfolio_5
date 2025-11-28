@@ -6,31 +6,31 @@
     <title>Arushi Mathur | Data Scientist & Analyst</title>
     <meta name="description" content="Portfolio of Arushi Mathur - Data Science, Machine Learning, and Predictive Analytics.">
     
-    <!-- Fonts: Nunito (Rounded/Friendly) & Lora (Human/Editorial) -->
-    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Fonts: 'Playfair Display' for elegance, 'Inter' for modern tech feel -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* --- VARIABLES --- */
+        /* --- VARIABLES (Blue Theme Preserved) --- */
         :root {
-            /* Irish/Royal Blue Theme - Optimized */
-            --bg-deep: #0a192f;      /* Dark Navy Background */
+            /* Irish/Royal Blue Theme */
+            --bg-deep: #0a192f;      /* Dark Navy */
+            --bg-overlay: rgba(10, 25, 47, 0.85); /* Blue overlay for image */
             
             --accent-1: #64ffda;     /* Teal/Cyan - Primary Accent */
             --accent-2: #ccd6f6;     /* Light Slate - Headings */
             --text-main: #8892b0;    /* Slate - Body Text */
             --text-light: #e6f1ff;   /* White - Emphasis */
             
-            /* Enhanced Glass Vars - Increased opacity for visibility */
-            --glass-bg: rgba(255, 255, 255, 0.08); 
-            --glass-border: rgba(255, 255, 255, 0.15);
-            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            /* Glass Vars */
+            --glass-bg: rgba(17, 34, 64, 0.7); 
+            --glass-border: rgba(100, 255, 218, 0.1);
             --glass-blur: 12px;
             
-            --font-heading: 'Lora', serif;
-            --font-body: 'Nunito', sans-serif;
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Inter', sans-serif;
             
             --transition: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
         }
@@ -50,554 +50,478 @@
 
         a { text-decoration: none; color: inherit; transition: var(--transition); }
         ul { list-style: none; }
-        
-        h1, h2, h3, h4 { margin: 0 0 10px 0; font-weight: 600; color: var(--text-light); line-height: 1.1; }
 
-        /* --- ANIMATED BACKGROUND --- */
-        .background-container {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100vh;
-            z-index: -2; overflow: hidden;
-            background: radial-gradient(circle at center, #112240 0%, #0a192f 100%);
+        /* --- HERO SECTION (Nidhi Style Layout + Blue Theme) --- */
+        header {
+            height: 100vh;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
         }
 
+        /* Background Image */
+        .hero-bg-image {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -2;
+            object-fit: cover;
+            /* Blue tint effect */
+            filter: grayscale(100%) sepia(100%) hue-rotate(170deg) saturation(200%) brightness(0.4);
+            opacity: 0.6;
+            transition: transform 10s ease;
+        }
+        
+        header:hover .hero-bg-image { transform: scale(1.02); }
+
+        /* Particles on top of image */
         #particle-canvas {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             z-index: -1; pointer-events: none;
         }
 
-        /* --- GLASSMORPHISM CLASS --- */
-        .glass-panel {
-            background: var(--glass-bg);
-            backdrop-filter: blur(var(--glass-blur));
-            -webkit-backdrop-filter: blur(var(--glass-blur));
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            box-shadow: var(--glass-shadow);
-            transition: var(--transition);
+        /* Content */
+        .hero-content { 
+            z-index: 2; 
+            padding: 20px; 
+            margin-top: -5vh; 
+            position: relative; /* For absolute positioning of watermark */
         }
 
-        /* --- NAVIGATION --- */
-        nav {
-            padding: 0 50px; height: 80px;
-            display: flex; justify-content: space-between; align-items: center;
-            position: fixed; width: 100%; top: 0; z-index: 1000;
-            background: rgba(10, 25, 47, 0.85);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .logo {
+        /* Watermark Placeholder Behind Name */
+        .hero-watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             font-family: var(--font-heading);
-            font-size: 1.4rem;
+            font-size: 20vw; /* Massive size */
             font-weight: 700;
+            color: transparent;
+            -webkit-text-stroke: 2px rgba(255, 255, 255, 0.05); /* Outline only */
+            z-index: -1; /* Behind title */
+            white-space: nowrap;
+            pointer-events: none;
+            opacity: 0;
+            animation: zoomInFade 1.5s ease forwards 0.2s;
+        }
+
+        .hero-label {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
             color: var(--accent-1);
-            letter-spacing: 0.5px;
+            margin-bottom: 1rem;
+            display: block;
+            animation: fadeInDown 1s ease forwards 0.5s; opacity: 0;
         }
 
-        .nav-links { display: flex; gap: 2rem; }
-        .nav-links a { 
-            font-family: var(--font-body); font-size: 0.9rem; color: var(--text-light); font-weight: 500;
+        .hero-title {
+            font-family: var(--font-heading);
+            font-size: clamp(3.5rem, 10vw, 7rem);
+            font-weight: 700;
+            color: var(--text-light);
+            margin: 0;
+            line-height: 1;
+            letter-spacing: -1px;
+            background: linear-gradient(to bottom right, #e6f1ff 40%, #8892b0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: fadeInUp 1s ease forwards 0.8s; opacity: 0;
         }
-        .nav-links a:hover { color: var(--accent-1); }
-        .menu-toggle { display: none; font-size: 1.5rem; cursor: pointer; color: var(--accent-1); }
 
-        /* --- HERO SECTION --- */
-        header {
-            min-height: 100vh;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            padding: 100px 20px 80px; text-align: center;
-            max-width: 1000px; margin: 0 auto;
+        .hero-subtitle {
+            font-family: var(--font-body);
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            color: var(--accent-2);
+            margin-top: 1.5rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+            animation: fadeInUp 1s ease forwards 1.1s; opacity: 0;
         }
 
-        /* Profile Image Placeholder */
-        .profile-container {
-            width: 180px; height: 180px;
-            margin-bottom: 2rem;
-            position: relative;
+        /* --- FLOATING BOTTOM NAV (Blue Glass Style) --- */
+        .bottom-nav-container {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            width: 90%;
+            max-width: 500px;
+            animation: slideUp 1s ease forwards 1.5s; opacity: 0;
         }
-        
-        .profile-placeholder {
-            width: 100%; height: 100%;
-            border-radius: 50%;
-            /* Enhanced Glass Effect */
-            background: rgba(255, 255, 255, 0.1); 
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 0 30px rgba(100, 255, 218, 0.15);
-            
+
+        .bottom-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 25px;
+            background: rgba(10, 25, 47, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+
+        .nav-left, .nav-right { display: flex; gap: 20px; }
+
+        .nav-center {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent-1);
+            font-weight: 600;
+        }
+
+        .dock-icon {
+            color: var(--text-light);
+            font-size: 1.2rem;
+            opacity: 0.7;
+            transition: var(--transition);
             display: flex; align-items: center; justify-content: center;
-            overflow: hidden;
+        }
+
+        .dock-icon:hover {
+            opacity: 1;
+            transform: translateY(-3px);
+            color: var(--accent-1);
+        }
+
+        .scroll-down-btn {
+            background: var(--text-light);
+            color: var(--bg-deep);
+            width: 35px; height: 35px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1rem;
             transition: var(--transition);
         }
         
-        /* Image styling */
-        .profile-placeholder img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 50%;
+        .scroll-down-btn:hover {
+            transform: scale(1.1);
+            background: var(--accent-1);
         }
-        
-        .profile-container:hover .profile-placeholder {
-            border-color: var(--accent-1);
-            transform: scale(1.05);
-            box-shadow: 0 0 40px rgba(100, 255, 218, 0.3);
-        }
-
-        .hero-greeting { font-family: var(--font-body); font-size: 1.1rem; color: var(--accent-1); margin-bottom: 1rem; }
-        .hero-title { font-size: clamp(36px, 6vw, 64px); font-weight: 800; color: var(--text-light); margin: 0; }
-        .hero-subtitle { font-size: clamp(24px, 4vw, 40px); font-weight: 700; color: var(--text-main); margin-top: 10px; line-height: 1.2; }
-        
-        .hero-summary {
-            font-size: 1.15rem; color: var(--text-main); margin: 25px auto 35px; max-width: 600px;
-        }
-        
-        .hero-keywords { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; margin-bottom: 3rem; }
-        .hero-keyword-pill {
-            padding: 0.5rem 1rem; border: 1px solid var(--accent-1); border-radius: 50px;
-            font-size: 0.85rem; color: var(--accent-1); background: rgba(100, 255, 218, 0.05);
-        }
-
-        .cta-btn {
-            display: inline-block; padding: 1rem 2rem; border: 1px solid var(--accent-1); border-radius: 4px;
-            color: var(--accent-1); font-size: 0.95rem; background: transparent; transition: var(--transition);
-        }
-        .cta-btn:hover { background: rgba(100, 255, 218, 0.1); transform: translateY(-3px); }
 
         /* --- SECTIONS --- */
-        section { padding: 80px 20px; max-width: 1000px; margin: 0 auto; }
+        section { padding: 100px 20px; max-width: 1100px; margin: 0 auto; }
         
-        .section-heading { display: flex; align-items: center; width: 100%; white-space: nowrap; margin-bottom: 40px; }
-        .section-heading h2 { font-size: clamp(24px, 4vw, 32px); color: var(--text-light); margin-right: 20px; }
-        .section-heading::after { content: ""; display: block; width: 100%; height: 1px; background-color: #233554; opacity: 0.5; position: relative; max-width: 300px;}
+        .section-heading { text-align: center; margin-bottom: 60px; }
+        .section-heading h2 { 
+            font-family: var(--font-heading);
+            font-size: 3rem; 
+            color: var(--text-light); 
+            margin-bottom: 10px;
+        }
+        .section-heading p { color: var(--text-main); font-size: 1.1rem; }
 
         /* --- SKILLS GRID --- */
-        .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
+        .skills-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+            gap: 20px; 
+        }
         
         .skill-card {
-            padding: 2rem; cursor: pointer; display: flex; flex-direction: column; overflow: hidden;
-            /* Applying glass panel style here */
+            padding: 2.5rem; 
             background: var(--glass-bg);
-            backdrop-filter: blur(var(--glass-blur));
             border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            box-shadow: var(--glass-shadow);
+            border-radius: 16px;
+            cursor: pointer;
+            transition: var(--transition);
         }
-        .skill-card:hover { transform: translateY(-5px); border-color: var(--accent-1); background: rgba(255, 255, 255, 0.12); }
-        .skill-card.active { border-color: var(--accent-1); background: rgba(255, 255, 255, 0.12); }
+        .skill-card:hover, .skill-card.active { 
+            background: rgba(17, 34, 64, 0.9); 
+            border-color: var(--accent-1);
+            transform: translateY(-5px);
+        }
         
-        .skill-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .skill-icon { font-size: 32px; color: var(--accent-1); }
-        .skill-toggle-icon { font-size: 14px; transition: transform 0.3s; }
-        .skill-card.active .skill-toggle-icon { transform: rotate(180deg); color: var(--accent-1); }
+        .skill-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .skill-icon { font-size: 2rem; color: var(--accent-1); }
+        .skill-toggle { font-size: 0.9rem; color: var(--text-main); transition: 0.3s; }
+        .skill-card.active .skill-toggle { transform: rotate(180deg); color: var(--accent-1); }
         
-        .skill-card h3 { font-size: 1.25rem; margin-bottom: 10px; color: var(--text-light); }
-        .skill-list { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 5px; }
+        .skill-card h3 { font-size: 1.25rem; font-weight: 500; color: var(--text-light); margin-bottom: 15px; }
         
+        .skill-list { display: flex; flex-wrap: wrap; gap: 8px; }
         .pill {
-            font-size: 13px; color: var(--text-main); padding: 0; background: none; border: none; margin-right: 10px;
+            font-size: 0.85rem; color: var(--accent-1); 
+            padding: 4px 12px; 
+            border: 1px solid rgba(100, 255, 218, 0.2); 
+            border-radius: 20px;
+            background: rgba(100, 255, 218, 0.05);
         }
-        .pill::before { content: "▹"; color: var(--accent-1); margin-right: 5px; }
 
         .skill-elaboration {
-            max-height: 0; opacity: 0; overflow: hidden; transition: all 0.4s ease;
-            color: var(--text-main); font-size: 0.95rem; border-top: 1px solid transparent; margin-top: 0; padding-top: 0;
+            max-height: 0; opacity: 0; overflow: hidden; transition: all 0.5s ease;
+            color: var(--text-main); font-size: 0.95rem; margin-top: 0; line-height: 1.6;
         }
         .skill-card.active .skill-elaboration {
-            max-height: 200px; opacity: 1; margin-top: 15px; padding-top: 15px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            max-height: 200px; opacity: 1; margin-top: 20px; 
+            border-top: 1px solid rgba(100, 255, 218, 0.1); padding-top: 15px;
         }
 
         /* --- EXPERIENCE --- */
-        .timeline-container { max-width: 800px; margin: 0 auto; }
-        .timeline-item { margin-bottom: 2rem; }
-        
-        .exp-card { 
-            padding: 2rem; position: relative; border-left: 2px solid #233554; border-radius: 0 8px 8px 0;
-            background: rgba(255,255,255,0.02); /* Slight tint for container */
-            border-top: 1px solid transparent; border-right: 1px solid transparent; border-bottom: 1px solid transparent;
+        .timeline-item { 
+            border-left: 2px solid rgba(100, 255, 218, 0.2); 
+            padding-left: 30px; 
+            margin-bottom: 40px; 
+            position: relative;
         }
-        .exp-card:hover { background: rgba(255,255,255,0.05); border-left-color: var(--accent-1); }
+        .timeline-item::before {
+            content: ''; position: absolute; left: -6px; top: 0; width: 10px; height: 10px;
+            background: var(--bg-deep); border: 2px solid var(--accent-1); border-radius: 50%;
+        }
         
-        .exp-header { margin-bottom: 5px; }
-        .exp-role { font-size: 1.2rem; font-weight: 600; color: var(--text-light); }
-        .company-highlight { color: var(--accent-1); font-weight: 600; }
-        .company-highlight::before { content: " @ "; }
-        .exp-date { font-size: 0.85rem; color: var(--text-main); margin-bottom: 15px; display: block; font-family: monospace;}
+        .role { font-size: 1.5rem; color: var(--text-light); font-family: var(--font-heading); margin-bottom: 5px; }
+        .company { color: var(--accent-1); font-size: 0.9rem; margin-bottom: 10px; display: block; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .date { color: var(--text-main); font-size: 0.85rem; margin-bottom: 15px; display: block; font-family: monospace; }
+        .desc { color: var(--text-main); font-weight: 300; }
 
         /* --- PROJECTS --- */
-        .projects-wrapper { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        .projects-wrapper { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+            gap: 30px; 
+        }
         
         .project-card {
-            padding: 1.75rem; height: 100%; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between;
+            background: var(--glass-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: var(--transition);
+            cursor: pointer;
+            border: 1px solid transparent;
         }
-        .project-card:hover { transform: translateY(-7px); border-color: var(--accent-1); }
+        .project-card:hover {
+            border-color: var(--accent-1);
+            transform: translateY(-7px);
+        }
         
-        .project-top { display: flex; justify-content: space-between; margin-bottom: 25px; }
-        .folder-icon { color: var(--accent-1); font-size: 36px; }
-        .external-icon { color: var(--text-main); font-size: 20px; }
-        
-        .project-title { color: var(--text-light); font-size: 1.25rem; margin-bottom: 10px; }
-        .project-desc { color: var(--text-main); font-size: 0.95rem; margin-bottom: 20px; }
-        .project-tech-list { display: flex; flex-wrap: wrap; gap: 15px; font-size: 12px; font-family: monospace; color: var(--text-main); }
-
-        /* --- MODAL --- */
-        .modal {
-            display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%;
-            background-color: rgba(10, 25, 47, 0.95); backdrop-filter: blur(8px);
-            align-items: center; justify-content: center; padding: 20px;
-        }
-        .modal.active { display: flex; animation: fadeIn 0.3s ease; }
-        .modal-content {
-            background: #112240; padding: 40px; border-radius: 8px; width: 100%; max-width: 600px;
-            position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.7); border: 1px solid var(--accent-1);
-        }
-        .close-btn { position: absolute; top: 15px; right: 20px; color: var(--accent-1); font-size: 1.5rem; cursor: pointer; }
-
-        /* --- CONTACT --- */
-        .contact-box { text-align: center; max-width: 600px; margin: 0 auto; background: none; border: none; box-shadow: none; }
-        .contact-box h2 { font-size: clamp(32px, 5vw, 48px); color: var(--text-light); margin-bottom: 20px; }
-        .social-links { display: flex; justify-content: center; gap: 2rem; margin-top: 40px; }
-        .social-icon { font-size: 1.5rem; color: var(--text-main); transition: var(--transition); }
-        .social-icon:hover { color: var(--accent-1); transform: translateY(-3px); }
-
-        footer { text-align: center; padding: 20px; font-size: 12px; font-family: monospace; color: var(--text-main); margin-top: 50px;}
-
-        /* --- RESPONSIVE --- */
-        @media (max-width: 768px) {
-            nav { padding: 0 25px; height: 70px; }
-            .nav-links {
-                position: fixed; top: 0; right: 0; width: 70vw; height: 100vh;
-                background: #112240; flex-direction: column; justify-content: center; align-items: center;
-                transform: translateX(100%); transition: var(--transition); box-shadow: -10px 0 30px rgba(0,0,0,0.5);
-            }
-            .nav-links.active { transform: translateX(0); }
-            .menu-toggle { display: block; z-index: 1001; }
-            
-            header { padding-top: 120px; }
-            section { padding: 60px 20px; }
-            .profile-container { width: 140px; height: 140px; }
-        }
+        .project-info { padding: 30px; }
+        .project-category { color: var(--accent-1); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; display: block; }
+        .project-title { color: var(--text-light); font-family: var(--font-heading); font-size: 1.5rem; margin-bottom: 10px; }
+        .project-excerpt { color: var(--text-main); font-size: 0.9rem; margin-bottom: 20px; }
+        .tech-stack { font-size: 0.8rem; color: var(--text-main); font-family: monospace; opacity: 0.7; }
 
         /* --- ANIMATIONS --- */
-        .fade-in-up { opacity: 0; transform: translateY(20px); transition: 0.6s ease; }
-        .fade-in-up.visible { opacity: 1; transform: translateY(0); }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { opacity: 0; transform: translate(-50%, 20px); } to { opacity: 1; transform: translate(-50%, 0); } }
+        @keyframes zoomInFade { from { opacity: 0; transform: translate(-50%, -50%) scale(0.8); } to { opacity: 1; transform: translate(-50%, -50%) scale(1); } }
 
+        /* --- MEDIA QUERIES --- */
+        @media (max-width: 768px) {
+            .hero-title { font-size: 3.5rem; }
+            .hero-watermark { font-size: 25vw; }
+            .bottom-nav { padding: 10px 15px; }
+            .nav-center { display: none; } 
+            .bottom-nav-container { width: 85%; bottom: 30px; }
+        }
     </style>
 </head>
 <body>
 
-    <!-- Background -->
-    <div class="background-container">
+    <!-- HERO SECTION (Nidhi Layout, Blue Theme, Starry Effect) -->
+    <header>
+        <!-- Background: User Image with Blue Tint -->
+        <img src="arushi.jpg
+            " alt="Arushi Mathur Background" class="hero-bg-image">
+        
+        <!-- Background: Starry Particles -->
         <canvas id="particle-canvas"></canvas>
-    </div>
+        
+        <!-- Overlay Content -->
+        <div class="hero-content">
+            <!-- New Watermark Placeholder -->
+            <span class="hero-watermark">AM</span>
+            
+            <span class="hero-label">PORTFOLIO</span>
+            <h1 class="hero-title">Arushi Mathur</h1>
+            <p class="hero-subtitle">Data Scientist & Machine Learning Engineer</p>
+        </div>
 
-    <!-- Nav -->
-    <nav>
-        <a href="#" class="logo">Arushi Mathur</a>
-        <div class="menu-toggle"><i class="fas fa-bars"></i></div>
-        <ul class="nav-links">
-            <li><a href="#about">About</a></li>
-            <li><a href="#experience">Experience</a></li>
-            <li><a href="#projects">Work</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-    </nav>
-
-    <!-- Hero -->
-    <header class="fade-in-up">
-        <div class="profile-container">
-            <div class="profile-placeholder">
-                <!-- Replace 'WhatsApp Image...' with your actual file path -->
-                <img src="arushi.jpg" alt="Arushi Mathur">
+        <!-- Floating Bottom Dock Navigation -->
+        <div class="bottom-nav-container">
+            <div class="bottom-nav">
+                <div class="nav-left">
+                    <a href="mailto:arushimathur053@gmail.com" class="dock-icon" title="Email"><i class="far fa-envelope"></i></a>
+                    <a href="tel:+919461028823" class="dock-icon" title="Call"><i class="fas fa-phone-alt"></i></a>
+                </div>
+                
+                <div class="nav-center">CONNECT</div>
+                
+                <div class="nav-right">
+                    <a href="https://linkedin.com/in/arushi-mathur-2983a5289" target="_blank" class="dock-icon"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://github.com/Arushi5123" target="_blank" class="dock-icon"><i class="fab fa-github"></i></a>
+                    <a href="#about" class="scroll-down-btn"><i class="fas fa-arrow-down"></i></a>
+                </div>
             </div>
         </div>
-
-        <p class="hero-greeting">Hi, my name is</p>
-        <h1 class="hero-title">Arushi Mathur.</h1>
-        <h2 class="hero-subtitle">I build things with data.</h2>
-        
-        <div class="hero-summary">
-            I'm a Data Science undergraduate specializing in building exceptional digital experiences. Currently, I'm focused on accessible, human-centered Machine Learning products.
-        </div>
-
-        <div class="hero-keywords">
-            <span class="hero-keyword-pill">Python</span>
-            <span class="hero-keyword-pill">Machine Learning</span>
-            <span class="hero-keyword-pill">Data Analytics</span>
-        </div>
-
-        <a href="#projects" class="cta-btn">Check out my work!</a>
     </header>
 
-    <!-- Experience -->
-    <section id="experience" class="fade-in-up">
+    <!-- ABOUT / SKILLS -->
+    <section id="about">
         <div class="section-heading">
-            <h2>01. Where I've Worked</h2>
-        </div>
-        <div class="timeline-container">
-            <div class="timeline-item">
-                <div class="glass-panel exp-card">
-                    <div class="exp-header">
-                        <span class="exp-role">Data Science Intern</span>
-                        <span class="company-highlight">Celebal Technologies</span>
-                    </div>
-                    <span class="exp-date">May 2025 - July 2025</span>
-                    <p class="exp-desc">
-                        Spearheaded the development of a <strong>House Price Prediction Model</strong>. Conducted rigorous Feature Engineering and utilized advanced regression algorithms to optimize forecasting accuracy for the real estate sector.
-                    </p>
-                </div>
-            </div>
-            <div class="timeline-item">
-                <div class="glass-panel exp-card">
-                    <div class="exp-header">
-                        <span class="exp-role">Data Analytics Intern</span>
-                        <span class="company-highlight">IBM SkillBuild</span>
-                    </div>
-                    <span class="exp-date">June 2024 - Aug 2024</span>
-                    <p class="exp-desc">
-                        Engineered a robust <strong>AQI Prediction System</strong> to analyze environmental data trends (2020-2023). Applied Time-Series Analysis to derive actionable insights regarding air quality across major Indian demographics.
-                    </p>
-                </div>
-            </div>
-            <div class="timeline-item">
-                <div class="glass-panel exp-card">
-                    <div class="exp-header">
-                        <span class="exp-role">ML Trainee</span>
-                        <span class="company-highlight">UPFLAIRS</span>
-                    </div>
-                    <span class="exp-date">June 2024 - Aug 2024</span>
-                    <p class="exp-desc">
-                        Completed intensive technical training covering the full spectrum of ML methodologies. Deployed models for Image Classification (CNN) and Supervised Learning tasks.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Projects -->
-    <section id="projects" class="fade-in-up">
-        <div class="section-heading">
-            <h2>02. Some Things I've Built</h2>
-        </div>
-        <div class="projects-wrapper">
-            <div class="glass-panel project-card" 
-                 data-title="Customer Satisfaction Analysis" 
-                 data-tag="Predictive Analytics"
-                 data-desc="Developed a high-precision Classification Model to predict passenger satisfaction. Leveraged Scikit-learn to analyze survey data, identifying key performance indicators (KPIs)."
-                 data-tech="Python, Scikit-learn, Pandas">
-                <div class="project-top">
-                    <i class="far fa-folder folder-icon"></i>
-                    <i class="fas fa-external-link-alt external-icon"></i>
-                </div>
-                <div class="project-body">
-                    <h3 class="project-title">Customer Satisfaction Analysis</h3>
-                    <p class="project-desc">A Classification Model to predict passenger satisfaction using Scikit-learn, identifying key KPIs for airline retention strategies.</p>
-                </div>
-                <div class="project-tech-list">
-                    <span>Python</span><span>Scikit-learn</span><span>Pandas</span>
-                </div>
-            </div>
-            
-            <div class="glass-panel project-card"
-                 data-title="Smart Crop Recommendation" 
-                 data-tag="Agri-Tech AI"
-                 data-desc="Implemented Unsupervised Clustering algorithms to optimize agricultural yield. The system analyzes soil composition data (N, P, K values, pH, rainfall) to recommend the most suitable crops."
-                 data-tech="Clustering, K-Means, Python">
-                <div class="project-top">
-                    <i class="far fa-folder folder-icon"></i>
-                    <i class="fas fa-external-link-alt external-icon"></i>
-                </div>
-                <div class="project-body">
-                    <h3 class="project-title">Smart Crop Recommendation</h3>
-                    <p class="project-desc">Unsupervised Clustering system optimizing agricultural yield by analyzing soil composition data to recommend ideal crops.</p>
-                </div>
-                <div class="project-tech-list">
-                    <span>Clustering</span><span>K-Means</span><span>Python</span>
-                </div>
-            </div>
-            
-            <div class="glass-panel project-card"
-                 data-title="Image Classification System" 
-                 data-tag="Deep Learning"
-                 data-desc="Architected a Convolutional Neural Network (CNN) for binary image classification (Dog vs. Cat). Designed the neural network architecture from scratch, including convolution, pooling, and dense layers."
-                 data-tech="TensorFlow, Keras, CNN">
-                <div class="project-top">
-                    <i class="far fa-folder folder-icon"></i>
-                    <i class="fas fa-external-link-alt external-icon"></i>
-                </div>
-                <div class="project-body">
-                    <h3 class="project-title">Image Classification System</h3>
-                    <p class="project-desc">Convolutional Neural Network (CNN) for binary image classification, achieving high accuracy in visual pattern recognition.</p>
-                </div>
-                <div class="project-tech-list">
-                    <span>TensorFlow</span><span>CNN</span><span>Computer Vision</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Skills -->
-    <section id="about" class="fade-in-up">
-        <div class="section-heading">
-            <h2>03. Technical Skills</h2>
+            <h2>Technical Expertise</h2>
+            <p>Click cards to expand details</p>
         </div>
         <div class="skills-grid">
-            <div class="glass-panel skill-card" onclick="toggleSkill(this)">
+            <div class="skill-card" onclick="toggleSkill(this)">
                 <div class="skill-header">
-                    <i class="fas fa-chart-line skill-icon"></i>
-                    <i class="fas fa-chevron-down skill-toggle-icon"></i>
+                    <i class="fas fa-chart-network skill-icon"></i>
+                    <i class="fas fa-plus skill-toggle"></i>
                 </div>
                 <h3>Data Science</h3>
                 <div class="skill-list">
                     <span class="pill">Statistical Modeling</span>
                     <span class="pill">Visualization</span>
-                    <span class="pill">Predictive Analytics</span>
+                    <span class="pill">Python</span>
                 </div>
                 <div class="skill-elaboration">
-                    <p>Expertise in transforming raw data into actionable insights using Pandas, NumPy, and advanced visualization tools.</p>
+                    <p>Expertise in transforming raw data into actionable insights. Proficient in statistical analysis, hypothesis testing, and using libraries like Pandas and NumPy to clean, manipulate, and visualize complex datasets.</p>
                 </div>
             </div>
             
-            <div class="glass-panel skill-card" onclick="toggleSkill(this)">
+            <div class="skill-card" onclick="toggleSkill(this)">
                 <div class="skill-header">
-                    <i class="fas fa-brain skill-icon"></i>
-                    <i class="fas fa-chevron-down skill-toggle-icon"></i>
+                    <i class="fas fa-brain-circuit skill-icon"></i>
+                    <i class="fas fa-plus skill-toggle"></i>
                 </div>
                 <h3>Machine Learning</h3>
                 <div class="skill-list">
                     <span class="pill">Regression</span>
                     <span class="pill">Classification</span>
-                    <span class="pill">Neural Networks</span>
+                    <span class="pill">CNN</span>
                 </div>
                 <div class="skill-elaboration">
-                    <p>Skilled in designing predictive models ranging from regression to deep learning architectures (CNNs) using TensorFlow.</p>
+                    <p>Skilled in designing predictive models. Experience ranges from traditional algorithms like Regression and K-Means clustering to building deep learning architectures (CNNs) using TensorFlow.</p>
                 </div>
             </div>
             
-             <div class="glass-panel skill-card" onclick="toggleSkill(this)">
+            <div class="skill-card" onclick="toggleSkill(this)">
                 <div class="skill-header">
-                    <i class="fas fa-laptop-code skill-icon"></i>
-                    <i class="fas fa-chevron-down skill-toggle-icon"></i>
+                    <i class="fas fa-code-branch skill-icon"></i>
+                    <i class="fas fa-plus skill-toggle"></i>
                 </div>
                 <h3>Development</h3>
                 <div class="skill-list">
                     <span class="pill">Java</span>
-                    <span class="pill">HTML/CSS</span>
                     <span class="pill">Git</span>
+                    <span class="pill">DSA</span>
                 </div>
                 <div class="skill-elaboration">
-                    <p>Solid foundation in software engineering principles, building full-stack applications with modern web technologies.</p>
+                    <p>Solid foundation in software engineering principles. Capable of building scalable applications with Java and managing version control efficiently.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Contact -->
-    <section id="contact" class="fade-in-up">
-        <div class="contact-box">
-            <p style="color: var(--accent-1); margin-bottom: 20px;">04. What's Next?</p>
-            <h2>Get In Touch</h2>
-            <p style="color: var(--text-main); font-size: 1.1rem; margin-bottom: 50px;">
-                I'm currently looking for new opportunities, and my inbox is always open. Whether you have a question or just want to say hi, I'll try my best to get back to you!
-            </p>
-            <a href="mailto:arushimathur053@gmail.com" class="cta-btn">Say Hello</a>
-            
-            <div class="social-links">
-                <a href="https://github.com/Arushi5123" target="_blank" class="social-icon"><i class="fab fa-github"></i></a>
-                <a href="https://linkedin.com/in/arushi-mathur-2983a5289" target="_blank" class="social-icon"><i class="fab fa-linkedin"></i></a>
+    <!-- EXPERIENCE -->
+    <section id="experience">
+        <div class="section-heading">
+            <h2>Professional Journey</h2>
+        </div>
+        <div class="timeline-container">
+            <div class="timeline-item">
+                <span class="company">Celebal Technologies</span>
+                <h3 class="role">Data Science Intern</h3>
+                <span class="date">May 2025 - July 2025</span>
+                <p class="desc">Spearheaded the development of a House Price Prediction Model using advanced regression algorithms to optimize forecasting accuracy for the real estate sector.</p>
+            </div>
+            <div class="timeline-item">
+                <span class="company">IBM SkillBuild</span>
+                <h3 class="role">Data Analytics Intern</h3>
+                <span class="date">June 2024 - Aug 2024</span>
+                <p class="desc">Engineered a robust AQI Prediction System to analyze environmental data trends (2020-2023), providing actionable insights on air quality.</p>
+            </div>
+            <div class="timeline-item">
+                <span class="company">UPFLAIRS</span>
+                <h3 class="role">Machine Learning Trainee</h3>
+                <span class="date">June 2024 - Aug 2024</span>
+                <p class="desc">Completed intensive training in ML methodologies. Deployed models for Image Classification (CNN) and Supervised Learning tasks.</p>
             </div>
         </div>
     </section>
 
-    <footer>
-        <p>Designed & Built by Arushi Mathur</p>
+    <!-- PROJECTS -->
+    <section id="projects">
+        <div class="section-heading">
+            <h2>Selected Works</h2>
+        </div>
+        <div class="projects-wrapper">
+            <div class="project-card">
+                <div class="project-info">
+                    <span class="project-category">Predictive Analytics</span>
+                    <h3 class="project-title">Customer Satisfaction</h3>
+                    <p class="project-excerpt">A Classification Model predicting passenger satisfaction using Scikit-learn to identify key retention KPIs.</p>
+                    <div class="tech-stack">PYTHON / PANDAS / SCIKIT-LEARN</div>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-info">
+                    <span class="project-category">Agri-Tech AI</span>
+                    <h3 class="project-title">Smart Crop Recommendation</h3>
+                    <p class="project-excerpt">Unsupervised Clustering system analyzing soil composition data to recommend ideal crops for farmers.</p>
+                    <div class="tech-stack">CLUSTERING / K-MEANS / OPTIMIZATION</div>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-info">
+                    <span class="project-category">Computer Vision</span>
+                    <h3 class="project-title">Image Classification CNN</h3>
+                    <p class="project-excerpt">Architected a Convolutional Neural Network for binary image classification (Dog vs Cat) with high accuracy.</p>
+                    <div class="tech-stack">TENSORFLOW / CNN / KERAS</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer style="text-align: center; padding: 50px 20px; color: var(--text-main); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px;">
+        &copy; 2025 Arushi Mathur. All Rights Reserved.
     </footer>
 
-    <!-- Modal -->
-    <div id="project-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn">&times;</span>
-            <h3 class="modal-title" id="m-title">Project Title</h3>
-            <span class="modal-tag" id="m-tag">Category</span>
-            <p id="m-desc" style="line-height: 1.6; margin-bottom: 20px;">Description...</p>
-            <div id="m-tech" style="display: flex; gap: 10px; flex-wrap: wrap; font-size: 0.85rem; color: var(--accent-1);"></div>
-        </div>
-    </div>
-
     <script>
-        // --- MOBILE NAV ---
-        const menuToggle = document.querySelector('.menu-toggle');
-        const navLinks = document.querySelector('.nav-links');
-        const body = document.querySelector('body');
-
-        menuToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-            if(navLinks.classList.contains('active')) {
-                body.style.overflow = 'hidden';
-                menuToggle.innerHTML = '<i class="fas fa-times"></i>';
-            } else {
-                body.style.overflow = 'auto';
-                menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
-            }
-        });
-
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-                body.style.overflow = 'auto';
-                menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+        // Skill Toggle Logic
+        function toggleSkill(card) {
+            const isActive = card.classList.contains('active');
+            document.querySelectorAll('.skill-card').forEach(c => {
+                c.classList.remove('active');
+                c.querySelector('.skill-toggle').classList.replace('fa-minus', 'fa-plus');
+                c.querySelector('.skill-toggle').style.transform = 'rotate(0deg)';
             });
-        });
-
-        // --- SCROLL ANIMATION ---
+            
+            if (!isActive) {
+                card.classList.add('active');
+                card.querySelector('.skill-toggle').classList.replace('fa-plus', 'fa-minus');
+                card.querySelector('.skill-toggle').style.transform = 'rotate(180deg)';
+            }
+        }
+        
+        // Scroll Animation
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if(entry.isIntersecting) {
-                    entry.target.classList.add('visible');
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
                 }
             });
-        }, { threshold: 0.1 });
-        document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
-
-        // --- SKILL TOGGLE ---
-        function toggleSkill(card) {
-            const isActive = card.classList.contains('active');
-            document.querySelectorAll('.skill-card').forEach(c => c.classList.remove('active'));
-            if (!isActive) card.classList.add('active');
-        }
-
-        // --- MODAL ---
-        const modal = document.getElementById('project-modal');
-        const closeBtn = document.querySelector('.close-btn');
-        const mTitle = document.getElementById('m-title');
-        const mTag = document.getElementById('m-tag');
-        const mDesc = document.getElementById('m-desc');
-        const mTech = document.getElementById('m-tech');
-
-        document.querySelectorAll('.project-card').forEach(card => {
-            card.addEventListener('click', () => {
-                mTitle.innerText = card.getAttribute('data-title');
-                mTag.innerText = card.getAttribute('data-tag');
-                mDesc.innerText = card.getAttribute('data-desc');
-                const techs = card.getAttribute('data-tech').split(',');
-                mTech.innerHTML = '';
-                techs.forEach(t => {
-                    const span = document.createElement('span');
-                    span.innerText = '# ' + t.trim();
-                    mTech.appendChild(span);
-                });
-                modal.classList.add('active');
-            });
+        });
+        
+        document.querySelectorAll('section').forEach(section => {
+            section.style.opacity = 0;
+            section.style.transform = 'translateY(30px)';
+            section.style.transition = 'all 0.8s ease';
+            observer.observe(section);
         });
 
-        closeBtn.addEventListener('click', () => modal.classList.remove('active'));
-        window.addEventListener('click', (e) => { if(e.target === modal) modal.classList.remove('active'); });
-
-        // --- MINIMAL STARS PARTICLES ---
+        // --- STARRY PARTICLE SYSTEM ---
         const canvas = document.getElementById('particle-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -613,25 +537,20 @@
             constructor() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 1.5 + 0.5; // Star-like size
-                this.speedX = 0; // Stars don't usually move sideways rapidly
-                this.speedY = Math.random() * 0.2 + 0.05; // Gentle float up/down or drift
+                this.size = Math.random() * 2 + 0.1;
+                this.speedY = Math.random() * 0.2 + 0.05; // Gentle float up
                 this.alpha = Math.random();
-                this.alphaChange = (Math.random() * 0.02) + 0.005; // Twinkle speed
+                this.alphaChange = (Math.random() * 0.02) + 0.002;
             }
             update() {
-                // Twinkle effect
                 this.alpha += this.alphaChange;
-                if (this.alpha > 1 || this.alpha < 0.2) {
-                    this.alphaChange = -this.alphaChange;
-                }
+                if (this.alpha > 1 || this.alpha < 0.1) this.alphaChange = -this.alphaChange;
                 
-                // Minimal drift
                 this.y -= this.speedY;
                 if(this.y < 0) this.y = canvas.height;
             }
             draw() {
-                ctx.fillStyle = `rgba(100, 255, 218, ${this.alpha})`;
+                ctx.fillStyle = `rgba(100, 255, 218, ${this.alpha})`; // Teal/Cyan Stars
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
@@ -640,7 +559,6 @@
 
         function initParticles() {
             particles = [];
-            // Star density
             const count = Math.floor((window.innerWidth * window.innerHeight) / 10000);
             for(let i=0; i<count; i++) particles.push(new Particle());
         }
