@@ -284,10 +284,20 @@
             transition: var(--transition);
             cursor: pointer;
             border: 1px solid transparent;
+            /* Added for elaboration */
+            height: auto;
+            max-height: 200px; /* Initial concise height */
         }
         .project-card:hover {
             border-color: var(--accent-1);
             transform: translateY(-7px);
+        }
+        
+        /* Interactive State for Projects */
+        .project-card.active {
+            border-color: var(--accent-1);
+            background: rgba(17, 34, 64, 0.9);
+            max-height: 500px; /* Expanded height */
         }
         
         .project-info { padding: 30px; }
@@ -295,6 +305,30 @@
         .project-title { color: var(--text-light); font-family: var(--font-heading); font-size: 1.5rem; margin-bottom: 10px; }
         .project-excerpt { color: var(--text-main); font-size: 0.9rem; margin-bottom: 20px; }
         .tech-stack { font-size: 0.8rem; color: var(--text-main); font-family: monospace; opacity: 0.7; }
+
+        /* New: Project Elaboration Section (Hidden by Default) */
+        .project-elaboration {
+            max-height: 0; opacity: 0; overflow: hidden; transition: all 0.5s ease;
+            color: var(--text-main); font-size: 0.95rem; margin-top: 0; line-height: 1.6;
+            border-top: 1px solid transparent;
+        }
+        
+        .project-card.active .project-elaboration {
+            max-height: 300px; opacity: 1; margin-top: 20px; 
+            border-top: 1px solid rgba(100, 255, 218, 0.1); padding-top: 15px;
+        }
+
+        .project-toggle-icon {
+            float: right;
+            font-size: 0.9rem;
+            color: var(--text-main);
+            transition: 0.3s;
+        }
+        
+        .project-card.active .project-toggle-icon {
+            transform: rotate(180deg);
+            color: var(--accent-1);
+        }
 
         /* --- NEW PROFILE IMAGE SHAPE (Bigger Squircle) --- */
         .profile-container {
@@ -486,30 +520,57 @@
     <section id="projects">
         <div class="section-heading">
             <h2>Selected Works</h2>
+            <p>Click projects to view details</p>
         </div>
         <div class="projects-wrapper">
-            <div class="project-card">
+            <div class="project-card" onclick="toggleProject(this)">
                 <div class="project-info">
-                    <span class="project-category">Predictive Analytics</span>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span class="project-category">Predictive Analytics</span>
+                        <i class="fas fa-plus project-toggle-icon"></i>
+                    </div>
                     <h3 class="project-title">Customer Satisfaction</h3>
-                    <p class="project-excerpt">A Classification Model predicting passenger satisfaction using Scikit-learn to identify key retention KPIs.</p>
+                    <p class="project-excerpt">A Classification Model predicting passenger satisfaction using Scikit-learn.</p>
                     <div class="tech-stack">PYTHON / PANDAS / SCIKIT-LEARN</div>
+                    
+                    <!-- NEW: Elaboration Content -->
+                    <div class="project-elaboration">
+                        <p>Developed a high-precision Classification Model to predict passenger satisfaction. Leveraged Scikit-learn to analyze survey data, identifying key performance indicators (KPIs) such as flight delays, service quality, and seat comfort. The model helps airlines improve customer retention strategies.</p>
+                    </div>
                 </div>
             </div>
-            <div class="project-card">
+            
+            <div class="project-card" onclick="toggleProject(this)">
                 <div class="project-info">
-                    <span class="project-category">Agri-Tech AI</span>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span class="project-category">Agri-Tech AI</span>
+                        <i class="fas fa-plus project-toggle-icon"></i>
+                    </div>
                     <h3 class="project-title">Smart Crop Recommendation</h3>
-                    <p class="project-excerpt">Unsupervised Clustering system analyzing soil composition data to recommend ideal crops for farmers.</p>
+                    <p class="project-excerpt">Unsupervised Clustering system analyzing soil composition data.</p>
                     <div class="tech-stack">CLUSTERING / K-MEANS / OPTIMIZATION</div>
+                    
+                    <!-- NEW: Elaboration Content -->
+                    <div class="project-elaboration">
+                        <p>Implemented Unsupervised Clustering algorithms to optimize agricultural yield. The system analyzes soil composition data (N, P, K values, pH, rainfall) to recommend the most suitable crops for specific plots. This data-driven approach enhances decision-making for farmers.</p>
+                    </div>
                 </div>
             </div>
-            <div class="project-card">
+            
+            <div class="project-card" onclick="toggleProject(this)">
                 <div class="project-info">
-                    <span class="project-category">Computer Vision</span>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span class="project-category">Computer Vision</span>
+                        <i class="fas fa-plus project-toggle-icon"></i>
+                    </div>
                     <h3 class="project-title">Image Classification CNN</h3>
-                    <p class="project-excerpt">Architected a Convolutional Neural Network for binary image classification (Dog vs Cat) with high accuracy.</p>
+                    <p class="project-excerpt">Convolutional Neural Network for binary image classification.</p>
                     <div class="tech-stack">TENSORFLOW / CNN / KERAS</div>
+                    
+                    <!-- NEW: Elaboration Content -->
+                    <div class="project-elaboration">
+                        <p>Architected a Convolutional Neural Network (CNN) for binary image classification (Dog vs Cat). Designed the neural network architecture from scratch, including convolution, pooling, and dense layers. Achieved high accuracy in distinguishing visual patterns.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -533,6 +594,30 @@
                 card.classList.add('active');
                 card.querySelector('.skill-toggle').classList.replace('fa-plus', 'fa-minus');
                 card.querySelector('.skill-toggle').style.transform = 'rotate(180deg)';
+            }
+        }
+        
+        // NEW: Project Toggle Logic (Similar to Skills)
+        function toggleProject(card) {
+            const isActive = card.classList.contains('active');
+            
+            // Close other projects if you want only one open at a time
+            document.querySelectorAll('.project-card').forEach(c => {
+                c.classList.remove('active');
+                const icon = c.querySelector('.project-toggle-icon');
+                if(icon) {
+                    icon.classList.replace('fa-minus', 'fa-plus');
+                    icon.style.transform = 'rotate(0deg)';
+                }
+            });
+            
+            if (!isActive) {
+                card.classList.add('active');
+                const icon = card.querySelector('.project-toggle-icon');
+                if(icon) {
+                    icon.classList.replace('fa-plus', 'fa-minus');
+                    icon.style.transform = 'rotate(180deg)';
+                }
             }
         }
         
