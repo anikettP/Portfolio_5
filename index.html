@@ -64,21 +64,19 @@
             text-align: center;
         }
 
-        /* Background Image */
+        /* Background Image - Blurred for depth */
         .hero-bg-image {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
             z-index: -2;
             object-fit: cover;
-            /* CRITICAL FIX: Focus on the top 20% of the image (the face) */
+            /* Focus on the top part of image */
             object-position: center 20%; 
-            /* Blue tint effect - slightly brighter for visibility */
-            filter: grayscale(100%) sepia(100%) hue-rotate(170deg) saturation(200%) brightness(0.5);
-            opacity: 0.7;
-            transition: transform 10s ease;
+            /* Blue tint effect + blur to make text pop */
+            filter: blur(8px) grayscale(100%) sepia(100%) hue-rotate(170deg) saturation(200%) brightness(0.4);
+            opacity: 0.6;
+            transform: scale(1.1); /* Scale up to hide blur edges */
         }
-        
-        header:hover .hero-bg-image { transform: scale(1.02); }
 
         /* Particles on top of image */
         #particle-canvas {
@@ -314,7 +312,7 @@
 
         /* --- NEW PROFILE IMAGE SHAPE (Squircle) --- */
         .profile-container {
-            width: 180px; height: 180px;
+            width: 200px; height: 200px; /* Slightly larger */
             margin-bottom: 2rem;
             position: relative;
             z-index: 10;
@@ -323,7 +321,7 @@
         .profile-placeholder {
             width: 100%; height: 100%;
             /* Soft Rounded Square (Squircle) */
-            border-radius: 30px; 
+            border-radius: 40px; /* More rounded corners */
             background: rgba(255, 255, 255, 0.1); 
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
@@ -338,7 +336,8 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            /* No border radius on img needed as parent clips it */
+            /* CRITICAL: Focus on the top 20% of the image (the face) */
+            object-position: center 20%; 
         }
         
         .profile-container:hover .profile-placeholder {
@@ -367,9 +366,8 @@
 
     <!-- HERO SECTION (Nidhi Layout, Blue Theme, Starry Effect) -->
     <header>
-        <!-- Background: User Image with Blue Tint -->
-        <!-- Fixed: URL Encoded the spaces in filename -->
-        <img src="arushi.jpg" alt="Arushi Mathur Background" class="hero-bg-image">
+        <!-- Background: Blurred version of User Image for atmosphere -->
+        <img src="arushi.jpg" alt="Background" class="hero-bg-image">
         
         <!-- Background: Starry Particles -->
         <canvas id="particle-canvas"></canvas>
@@ -379,6 +377,7 @@
             <!-- New: Soft Rounded Square Profile Image -->
             <div class="profile-container">
                 <div class="profile-placeholder">
+                    <!-- Clean image display with object-position fixed -->
                     <img src="WhatsApp%20Image%202025-11-29%20at%2000.32.52_5fc66d18.jpg" alt="Arushi Mathur">
                 </div>
             </div>
