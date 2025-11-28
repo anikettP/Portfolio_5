@@ -312,6 +312,41 @@
         .project-excerpt { color: var(--text-main); font-size: 0.9rem; margin-bottom: 20px; }
         .tech-stack { font-size: 0.8rem; color: var(--text-main); font-family: monospace; opacity: 0.7; }
 
+        /* --- NEW PROFILE IMAGE SHAPE (Squircle) --- */
+        .profile-container {
+            width: 180px; height: 180px;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .profile-placeholder {
+            width: 100%; height: 100%;
+            /* Soft Rounded Square (Squircle) */
+            border-radius: 30px; 
+            background: rgba(255, 255, 255, 0.1); 
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 30px rgba(100, 255, 218, 0.15);
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        
+        .profile-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* No border radius on img needed as parent clips it */
+        }
+        
+        .profile-container:hover .profile-placeholder {
+            border-color: var(--accent-1);
+            transform: scale(1.05) rotate(2deg); /* Added subtle rotation for modern feel */
+            box-shadow: 0 0 40px rgba(100, 255, 218, 0.3);
+        }
+
         /* --- ANIMATIONS --- */
         @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
@@ -341,6 +376,13 @@
         
         <!-- Overlay Content -->
         <div class="hero-content">
+            <!-- New: Soft Rounded Square Profile Image -->
+            <div class="profile-container">
+                <div class="profile-placeholder">
+                    <img src="WhatsApp%20Image%202025-11-29%20at%2000.32.52_5fc66d18.jpg" alt="Arushi Mathur">
+                </div>
+            </div>
+
             <!-- New Watermark Placeholder -->
             <span class="hero-watermark">AM</span>
             
